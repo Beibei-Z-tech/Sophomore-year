@@ -1,0 +1,4 @@
+输出：
+Postorder traversal (non-recursive): c d - e f / - 
+
+该代码后序非递归遍历第一题的树

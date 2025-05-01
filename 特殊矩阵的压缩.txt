@@ -1,0 +1,22 @@
+输出：
+Compressed symmetric matrix 1:
+1 2 3 
+Decompressed matrix 1:
+1 2 
+2 3 
+Compressed symmetric matrix 2:
+1 4 3 6 7 0 5 9 2 8 
+Decompressed matrix 2:
+1 4 6 5 
+4 3 7 9 
+6 7 0 2 
+5 9 2 8 
+
+在运行写的这段代码的时候，在编译命令中添加-std=c++11来启用C++11标准
+cd "/Users/zbb/Documents/C++_/" && g++ -std=c++11 special_juzhen.cpp -o special_juzhen && "/Users/zbb/Documents/C++_/"special_juzhen
+所以才运行出来了，否则会报错
+
+该代码选择合适数据结构存储方阵，实现以下功能：
+1.检查一个矩阵是不是对称矩阵？
+2.如果是请压缩存储到一个一维数组中。
+3.压缩后的一维数组还原成矩阵。

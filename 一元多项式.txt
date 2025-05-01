@@ -1,0 +1,14 @@
+测试样例：
+ 相加测试样例A：7+3x+9x^8+5x^17     B:8x+22x^7-9x^8
+    相减测试样例C：1+x+x^2                      D：x^2-5x^3
+    求值测试样例E：-5 + 2x + 4x^6 - 10x^9 在x=2时的值
+
+输出：
+Polynomial A: 5x^17+9x^8+3x+7
+Polynomial B: -9x^8+22x^7+8x
+Sum of A and B: 5x^17+22x^7+11x+7
+Polynomial C: x^2+x+1
+Polynomial D: -5x^3+x^2
+Difference of C and D: 5x^3+x+1
+Polynomial E: -10x^9+4x^6+2x-5
+Value of Polynomial E at x = 2: -4865

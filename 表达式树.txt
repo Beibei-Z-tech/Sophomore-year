@@ -1,0 +1,9 @@
+输出：
+Preorder traversal (recursive): - + a * b - c d / e f 
+Inorder traversal (recursive): a + b * c - d - e / f 
+Preorder traversal (non-recursive): - + a * b - c d / e f 
+Inorder traversal (non-recursive): a + b * c - d - e / f 
+
+该代码，利用栈，建立算数表达式树。
+前序，中序递归遍历该树
+前序、中序非递归遍历该树

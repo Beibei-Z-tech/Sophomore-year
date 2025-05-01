@@ -1,0 +1,11 @@
+输入：题目所给图
+输出：Depth First Search Traversal: 0 1 2 3 
+
+用邻接表存储表示，顶点以顶点内的数据为顶点数组中的下标进行存储。
+以及图的邻接表的几个基本操作：
+void CreateGraph (AdjGraph& G)                                //创建
+ArcType GetWeight (const AdjGraph& G,int u,int v)    //取 u-v边的权值
+int GetFirstNeighbor (MTGraph& G, int v)               //v的第一个邻接顶点
+int GetNextNeighbor (MTGraph& G, int v, int w)     //v的邻接顶点w的下一个邻接顶点
+
+进行DFS遍历

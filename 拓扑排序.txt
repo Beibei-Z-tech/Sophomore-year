@@ -1,0 +1,14 @@
+输入：
+题目所给的图
+输出：
+Adjacency list of vertex A -> D -> C -> B -> NULL
+Adjacency list of vertex B -> E -> NULL
+Adjacency list of vertex C -> F -> E -> NULL
+Adjacency list of vertex D -> G -> B -> NULL
+Adjacency list of vertex E -> G -> NULL
+Adjacency list of vertex F -> H -> G -> NULL
+Adjacency list of vertex G -> I -> NULL
+Adjacency list of vertex H -> I -> NULL
+Adjacency list of vertex I -> NULL
+拓扑排序为: A C F H D B E G I 
+_

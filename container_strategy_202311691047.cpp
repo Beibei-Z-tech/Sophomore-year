@@ -1,0 +1,95 @@
+#include <iostream>
+#include <cmath>
+
+// 定义常量PI
+const double PI = 3.14159265358979323846;
+
+// 抽象类CalcVolume
+class CalcVolume {
+public:
+    virtual ~CalcVolume() {}
+    // 虚函数计算体积
+    virtual double calculate_volume() = 0;
+};
+
+// 球体类SphereVolume，实现CalcVolume
+class SphereVolume : public CalcVolume {
+private:
+    double radius;
+
+public:
+    SphereVolume(double r) : radius(r) {}
+    // 计算球体体积
+    double calculate_volume() override {
+        return (4.0 / 3) * PI * std::pow(radius, 3);
+    }
+};
+
+// 圆柱体类CylinderVolume，实现CalcVolume
+class CylinderVolume : public CalcVolume {
+private:
+    double radius;
+    double height;
+
+public:
+    CylinderVolume(double r, double h) : radius(r), height(h) {}
+    // 计算圆柱体体积
+    double calculate_volume() override {
+        return PI * std::pow(radius, 2) * height;
+    }
+};
+
+// 正方体类CubeVolume，实现CalcVolume
+class CubeVolume : public CalcVolume {
+private:
+    double side;
+
+public:
+    CubeVolume(double s) : side(s) {}
+    // 计算正方体体积
+    double calculate_volume() override {
+        return std::pow(side, 3);
+    }
+};
+
+// 计算接口类CContainer
+class CContainer {
+private:
+    CalcVolume* strategy;
+
+public:
+    CContainer(CalcVolume* s) : strategy(s) {}
+    // 设置计算策略
+    void set_strategy(CalcVolume* s) {
+        strategy = s;
+    }
+    // 获取体积
+    double getVolume() {
+        return strategy->calculate_volume();
+    }
+};
+
+int main() {
+    // 创建不同形状的计算策略对象
+    CalcVolume* sphereStrategy = new SphereVolume(5);
+    CalcVolume* cylinderStrategy = new CylinderVolume(3, 10);
+    CalcVolume* cubeStrategy = new CubeVolume(4);
+
+    // 创建CContainer对象，并设置不同的计算策略
+    CContainer* container = new CContainer(sphereStrategy);
+    std::cout << "The volume of the sphere is: " << container->getVolume() << std::endl;
+
+    container->set_strategy(cylinderStrategy);
+    std::cout << "The volume of the cylinder is: " << container->getVolume() << std::endl;
+
+    container->set_strategy(cubeStrategy);
+    std::cout << "The volume of the cube is: " << container->getVolume() << std::endl;
+
+    // 清理内存
+    delete container;
+    delete sphereStrategy;
+    delete cylinderStrategy;
+    delete cubeStrategy;
+
+    return 0;
+}

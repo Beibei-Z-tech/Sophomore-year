@@ -1,0 +1,19 @@
+输出：
+Front element: a
+Queue elements: a b c d 
+Dequeued: a
+Dequeued: b
+Dequeued: c
+Dequeued: d
+Queue elements: a b c d e f g h i j 
+Queue is full
+
+该代码完成了循环队列的实现，并在main中测试了：
+依次入队：'a','b','c','d'
+看队首元素
+遍历队列
+依次出队并打印直到队空
+一直入队元素，直到队满，
+遍历
+并打印队列已满
+销毁队列

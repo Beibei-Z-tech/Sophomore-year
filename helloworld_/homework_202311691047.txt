@@ -1,0 +1,43 @@
+#include<iostream>
+using namespace std;
+class cmobilephone {
+private:
+string name;
+string xinghao;
+double chang, kuan, gao;
+public:
+void setinfo(string n = "iPhone", string x = "14", double c = 180, double k = 90, double g = 10)
+{
+name = n;
+xinghao = x;
+chang = c;
+kuan = k;
+gao = g;
+}
+void showinfo()
+{
+cout << "手机名字" << name << endl;
+cout << "手机型号" << xinghao << endl;
+}
+void showsize()
+{
+cout << "长度" << chang << endl;
+cout << "宽度" << kuan << endl;
+cout << "高度" << gao << endl;
+}
+void call(string n)
+{
+cout << "打电话给" << n << endl;
+
+}
+};
+int main()
+{
+cmobilephone h;
+h.setinfo();
+h.showinfo();
+h.showsize();
+h.call("mother");
+return 0;
+
+}

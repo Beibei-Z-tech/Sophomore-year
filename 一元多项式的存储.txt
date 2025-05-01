@@ -1,0 +1,17 @@
+输入：
+Enter the number of terms for polynomial A: 1
+1
+1
+Enter the number of terms for polynomial B: 2
+2
+2
+2
+2
+输出：
+Polynomial A: x
+Polynomial B: 2x^2+2x^2
+Sum of A and B: 2x^2+2x^2+x
+Difference of A and B: -2x^2-2x^2+x
+Reversed Polynomial A: x
+
+该代码实现一元多项式的存储及运算，比如相加相减，打印多项式反转多项式等。并在main函数中测试这些操作。
