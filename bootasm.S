@@ -42,7 +42,7 @@ seta20.2:
   lgdt    gdtdesc    #加载全局描述符表GDT(Task2)
   movl    %cr0, %eax
   orl     $CR0_PE, %eax
-  movl    %eax, %cr0。       #开启保护模式 PE位（Task2）
+  movl    %eax, %cr0       #开启保护模式 PE位（Task2）
 
 //PAGEBREAK!
   # Complete the transition to 32-bit protected mode by using a long jmp

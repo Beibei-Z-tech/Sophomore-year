@@ -81,6 +81,7 @@ sys_read(void)
 int
 sys_write(void)
 {
+//  cprintf("[KERNEL] sys_write invoked\n"); // 加上这一行
   struct file *f;
   int n;
   char *p;
@@ -442,3 +443,4 @@ sys_pipe(void)
   fd[1] = fd1;
   return 0;
 }
+
