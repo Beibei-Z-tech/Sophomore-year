@@ -91,6 +91,10 @@ kalloc(void)
     kmem.freelist = r->next;
   if(kmem.use_lock)
     release(&kmem.lock);
+  // 在 kalloc.c 的 kalloc() 函数最后
+  if(r){
+    cprintf("[MEM] alloc page at %p\n", r);
+}
   return (char*)r;
 }
 

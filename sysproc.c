@@ -52,6 +52,9 @@ sys_sbrk(void)
   if(argint(0, &n) < 0)
     return -1;
   addr = myproc()->sz;
+  if(growproc(n) < 0)
+    return -1;
+  return addr;
   if (n > 0) {
     curproc->sz += n;
 }   else if (n<0){
@@ -60,7 +63,6 @@ sys_sbrk(void)
 //  if(growproc(n) < 0)
   //  return -1;
  // curproc->sz += n;
-  return addr;
 }
 
 int
@@ -110,5 +112,11 @@ sys_trace(void)
   if(argint(0, &mask) < 0)
     return -1;
   myproc()->tracing_mask = mask; // 把掩码存到当前进程的结构体里
+  return 0;
+}
+int
+sys_hello(void)
+{
+  cprintf("Hello xv6! This is my new syscall.\n");
   return 0;
 }

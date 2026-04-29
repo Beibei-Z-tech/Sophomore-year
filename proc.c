@@ -326,7 +326,9 @@ scheduler(void)
   struct proc *p;
   struct cpu *c = mycpu();
   c->proc = 0;
-  
+  if(p->state == RUNNING){ // 只要进程在跑
+    cprintf("[SCHED] switch to pid=%d\n", p->pid);
+}  
   for(;;){
     // Enable interrupts on this processor.
     sti();
@@ -336,6 +338,7 @@ scheduler(void)
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
         continue;
+      cprintf("[SCHED] switch to pid=%d\n", p->pid);
 
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it

@@ -25,6 +25,7 @@ int sleep(int);
 int uptime(void);
 int getyear(void);
 int trace(int);
+int hello(void);
 
 // ulib.c
 int stat(const char*, struct stat*);
@@ -39,3 +40,4 @@ void* memset(void*, int, uint);
 void* malloc(uint);
 void free(void*);
 int atoi(const char*);
+
