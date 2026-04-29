@@ -36,6 +36,7 @@ idtinit(void)
 void
 trap(struct trapframe *tf)
 {
+  struct proc *curproc = myproc();
   if(tf->trapno == T_SYSCALL){
     if(myproc()->killed)
       exit();
@@ -45,7 +46,21 @@ trap(struct trapframe *tf)
       exit();
     return;
   }
-
+  else if(tf->trapno == T_PGFLT){
+    uint va = rcr2();
+    char *mem = kalloc();
+    if(mem == 0){
+      cprintf("out of memory\n");
+      curproc->killed = 1;
+   }else{
+    memset(mem, 0, PGSIZE);
+    uint a = PGROUNDDOWN(va);
+    if(mappages(curproc->pgdir, (char*)a, PGSIZE, V2P(mem), PTE_W|PTE_U) < 0){
+      kfree(mem);
+      curproc->killed = 1;
+    }
+  }
+}
   switch(tf->trapno){
   case T_IRQ0 + IRQ_TIMER:
     if(cpuid() == 0){

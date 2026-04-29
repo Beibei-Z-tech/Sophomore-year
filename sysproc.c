@@ -47,12 +47,14 @@ sys_sbrk(void)
 {
   int addr;
   int n;
+  struct proc *curproc = myproc();
 
   if(argint(0, &n) < 0)
     return -1;
   addr = myproc()->sz;
-  if(growproc(n) < 0)
-    return -1;
+//  if(growproc(n) < 0)
+  //  return -1;
+  curproc->sz += n;
   return addr;
 }
 
