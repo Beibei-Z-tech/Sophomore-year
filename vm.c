@@ -392,3 +392,26 @@ copyout(pde_t *pgdir, uint va, void *p, uint len)
 //PAGEBREAK!
 // Blank page.
 
+void
+vmprint(pde_t *pgdir)
+{
+  cprintf("page table %p\n", pgdir);
+  for(int i = 0; i < 512; i++){ // 遍历一级页表 (Page Directory)
+    pde_t pde = pgdir[i];
+    if(pde & PTE_P){ // PTE_P 是 x86 里的有效位 (Present)
+      uint pa = PTE_ADDR(pde);
+      cprintf("..%d: pte %p pa %p\n", i, pde, pa);
+      
+      // 进一步遍历二级页表 (Page Table)
+      pte_t *pt = (pte_t*)P2V(pa);
+      for(int j = 0; j < 1024; j++){
+        pte_t pte = pt[j];
+        if(pte & PTE_P){
+          cprintf(".. ..%d: pte %p pa %p\n", j, pte, PTE_ADDR(pte));
+        }
+      }
+    }
+  }
+}
+
+

@@ -101,6 +101,9 @@ exec(char *path, char **argv)
   curproc->tf->esp = sp;
   switchuvm(curproc);
   freevm(oldpgdir);
+  if(curproc->pid == 1){
+    vmprint(curproc->pgdir);
+}
   return 0;
 
  bad:
