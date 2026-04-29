@@ -199,6 +199,7 @@ fork(void)
   np->sz = curproc->sz;
   np->parent = curproc;
   *np->tf = *curproc->tf;
+  np->tracing_mask = curproc->tracing_mask;
 
   // Clear %eax so that fork returns 0 in the child.
   np->tf->eax = 0;

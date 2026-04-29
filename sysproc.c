@@ -95,3 +95,13 @@ sys_getyear(void)
   return 2026;
 }
 
+int
+sys_trace(void)
+{
+  int mask;
+  // argint(0, &mask) 的意思是：获取用户传进来的第 0 个整数参数
+  if(argint(0, &mask) < 0)
+    return -1;
+  myproc()->tracing_mask = mask; // 把掩码存到当前进程的结构体里
+  return 0;
+}
