@@ -32,9 +32,14 @@ xv6 内核运行机制实践报告
 编写测试程序：创建 user/hello.c，调用 hello() 并通过 Makefile 加入编译列表。  
 
 实验运行结果截图说明：（分别在主页里也上传了实验截图了）
+第一层任务一实验截图：
 https://github.com/Beibei-Z-tech/Sophomore-year/edit/main/README#:~:text=.gitignore-,15511777370260_,-.pic.jpg
-
-
+第一层任务二实验截图：
+https://github.com/Beibei-Z-tech/Sophomore-year/edit/main/README#:~:text=15591777440143_.-,pic,-.jpg
+第一层任务三实验截图：
+https://github.com/Beibei-Z-tech/Sophomore-year/edit/main/README#:~:text=15591777440143_.pic.jpg-,15631777453169_,-.pic.jpg
+第二层任务一实验截图：
+https://github.com/Beibei-Z-tech/Sophomore-year/edit/main/README#:~:text=15631777453169_.pic.jpg-,15651777455002_,-.pic.jpg
 
 三、 遇到的问题及解决方法
 Lazy Allocation 导致的内核重映射（Remap）：
