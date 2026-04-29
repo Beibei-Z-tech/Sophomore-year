@@ -31,7 +31,8 @@ xv6 内核运行机制实践报告
 
 编写测试程序：创建 user/hello.c，调用 hello() 并通过 Makefile 加入编译列表。  
 
-实验运行结果截图说明：
+实验运行结果截图说明：（分别在主页里也上传了实验截图了）
+https://github.com/Beibei-Z-tech/Sophomore-year/edit/main/README#:~:text=.gitignore-,15511777370260_,-.pic.jpg
 
 
 
