@@ -52,9 +52,14 @@ sys_sbrk(void)
   if(argint(0, &n) < 0)
     return -1;
   addr = myproc()->sz;
+  if (n > 0) {
+    curproc->sz += n;
+}   else if (n<0){
+    curproc->sz = deallocuvm(curproc->pgdir, curproc->sz, curproc->sz + n);
+}
 //  if(growproc(n) < 0)
   //  return -1;
-  curproc->sz += n;
+ // curproc->sz += n;
   return addr;
 }
 

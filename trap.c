@@ -32,36 +32,45 @@ idtinit(void)
   lidt(idt, sizeof(idt));
 }
 
-//PAGEBREAK: 41
 void
 trap(struct trapframe *tf)
 {
   struct proc *curproc = myproc();
+
   if(tf->trapno == T_SYSCALL){
-    if(myproc()->killed)
+    if(curproc->killed)
       exit();
-    myproc()->tf = tf;
+    curproc->tf = tf;
     syscall();
-    if(myproc()->killed)
+    if(curproc->killed)
       exit();
     return;
   }
-  else if(tf->trapno == T_PGFLT){
+
+  switch(tf->trapno){
+  // --- Lazy Allocation 核心逻辑 ---
+  case T_PGFLT: {
     uint va = rcr2();
-    char *mem = kalloc();
-    if(mem == 0){
-      cprintf("out of memory\n");
-      curproc->killed = 1;
-   }else{
-    memset(mem, 0, PGSIZE);
-    uint a = PGROUNDDOWN(va);
-    if(mappages(curproc->pgdir, (char*)a, PGSIZE, V2P(mem), PTE_W|PTE_U) < 0){
-      kfree(mem);
+    // 只要地址在 0 到 sz 之间，就是合法的 Lazy 区域
+    // 删除了 va < PGROUNDDOWN(tf->esp) 的判断，防止误杀 sh 进程
+    if(va < curproc->sz && va > 0){
+      char *mem = kalloc();
+      if(mem == 0){
+        curproc->killed = 1;
+        break;
+      }
+      memset(mem, 0, PGSIZE);
+      if(mappages(curproc->pgdir, (char*)PGROUNDDOWN(va), PGSIZE, V2P(mem), PTE_W|PTE_U) < 0){
+        kfree(mem);
+        curproc->killed = 1;
+      }
+    } else {
+      // 真正越界访问时才杀掉进程
       curproc->killed = 1;
     }
+    break;
   }
-}
-  switch(tf->trapno){
+
   case T_IRQ0 + IRQ_TIMER:
     if(cpuid() == 0){
       acquire(&tickslock);
@@ -76,7 +85,6 @@ trap(struct trapframe *tf)
     lapiceoi();
     break;
   case T_IRQ0 + IRQ_IDE+1:
-    // Bochs generates spurious IDE1 interrupts.
     break;
   case T_IRQ0 + IRQ_KBD:
     kbdintr();
@@ -88,40 +96,27 @@ trap(struct trapframe *tf)
     break;
   case T_IRQ0 + 7:
   case T_IRQ0 + IRQ_SPURIOUS:
-    cprintf("cpu%d: spurious interrupt at %x:%x\n",
-            cpuid(), tf->cs, tf->eip);
     lapiceoi();
     break;
 
-  //PAGEBREAK: 13
   default:
-    if(myproc() == 0 || (tf->cs&3) == 0){
-      // In kernel, it must be our mistake.
-      cprintf("unexpected trap %d from cpu %d eip %x (cr2=0x%x)\n",
-              tf->trapno, cpuid(), tf->eip, rcr2());
+    if(curproc == 0 || (tf->cs&3) == 0){
+      // 内核错误则 panic
       panic("trap");
     }
-    // In user space, assume process misbehaved.
-    cprintf("pid %d %s: trap %d err %d on cpu %d "
-            "eip 0x%x addr 0x%x--kill proc\n",
-            myproc()->pid, myproc()->name, tf->trapno,
-            tf->err, cpuid(), tf->eip, rcr2());
-    myproc()->killed = 1;
+    // 用户态错误则杀掉
+    curproc->killed = 1;
   }
 
-  // Force process exit if it has been killed and is in user space.
-  // (If it is still executing in the kernel, let it keep running
-  // until it gets to the regular system call return.)
-  if(myproc() && myproc()->killed && (tf->cs&3) == DPL_USER)
+  // 检查进程是否被标记为 killed
+  if(curproc && curproc->killed && (tf->cs&3) == DPL_USER)
     exit();
 
-  // Force process to give up CPU on clock tick.
-  // If interrupts were on while locks held, would need to check nlock.
-  if(myproc() && myproc()->state == RUNNING &&
+  // 时间片轮转
+  if(curproc && curproc->state == RUNNING &&
      tf->trapno == T_IRQ0+IRQ_TIMER)
     yield();
 
-  // Check if the process has been killed since we yielded
-  if(myproc() && myproc()->killed && (tf->cs&3) == DPL_USER)
+  if(curproc && curproc->killed && (tf->cs&3) == DPL_USER)
     exit();
 }
